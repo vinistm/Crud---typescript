@@ -39,10 +39,10 @@ const createUserService = async (data: IUserRequest): Promise<any> => {
     const returnUser = {
       id: createUser.id,
       name: createUser.name,
-      infos: {
-        email: userInfoCreate.email,
-        telephone: userInfoCreate.telephone,
-      },
+      email: userInfoCreate.email,
+      telephone: userInfoCreate.telephone,
+      created_at: createUser.created_at
+      
     };
     return returnUser;
   };

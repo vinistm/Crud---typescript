@@ -4,6 +4,7 @@ import {
     JoinTable,
     OneToMany,
     PrimaryColumn,
+    CreateDateColumn
     
   } from "typeorm";
 import { UserInfo } from "./userInfo.entity";
@@ -17,6 +18,9 @@ export class User {
 
   @Column({ length: 250 })
   name: string;
+
+  @CreateDateColumn()
+  created_at: Date;
 
   @OneToMany(() => UserInfo, (userInfo) => userInfo.user, {
     eager: true,
