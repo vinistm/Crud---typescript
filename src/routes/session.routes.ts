@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { log } from "util";
 import userLoginController from "../controllers/session/userLogin.controller";
 import schemaValidation from "../middlewares/schemaValidation";
 import loginSchema from "../schemas/login/login.schema";
@@ -6,7 +7,7 @@ import loginSchema from "../schemas/login/login.schema";
 const routes = Router();
 
 export const sessionRoutes = () => {
-    routes.post("", userLoginController)
+    routes.post("",schemaValidation(loginSchema), userLoginController)
   
     return routes
   };

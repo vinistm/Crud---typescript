@@ -6,10 +6,11 @@ import {
     PrimaryColumn,
     CreateDateColumn,
     UpdateDateColumn
-    
+  
   } from "typeorm";
 import { UserInfo } from "./userInfo.entity";
 import { v4 as uuid } from 'uuid'
+import { Exclude } from "class-transformer";
 
 
 @Entity("user")
@@ -22,6 +23,7 @@ export class User {
 
 
   @Column({ length: 250 })
+  @Exclude()
   password: string;
 
   @CreateDateColumn()
