@@ -23,6 +23,7 @@ const createUserinfoService = async({name,telephone,email}: IUserInfo) =>{
 
     await InfoRepository.save(contact)
 
-    return contact
+    return User
 }
 export default createUserinfoService
+
