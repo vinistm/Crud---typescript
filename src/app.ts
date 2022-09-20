@@ -9,5 +9,6 @@ app.use(express.json());
 appRoutes(app);
 
 app.use(handleError);
+app.listen(process.env.PORT || 3000)
 
 export default app;

@@ -18,7 +18,8 @@
   "scripts": {
     "dev": "ts-node-dev --ignore-watch node_modules src/server.ts",
     "typeorm": "typeorm-ts-node-commonjs",
-    "build": "tsc"
+    "build": "tsc",
+    "start": "node dist/app.js"
   },
   "name": "Crud---typescript",
   "version": "1.0.0",
