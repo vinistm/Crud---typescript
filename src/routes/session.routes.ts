@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { log } from "util";
 import userLoginController from "../controllers/session/userLogin.controller";
 import schemaValidation from "../middlewares/schemaValidation";
 import loginSchema from "../schemas/login/login.schema";
