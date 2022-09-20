@@ -6,45 +6,55 @@ import { AppError } from "../errors/appError";
 import { IUserRequest } from "../interfaces/user";
 
 
-const createUserService = async (data: IUserRequest): Promise<any> => {
-    const userRepository = AppDataSource.getRepository(User);
-    const user = new User();
-    user.name = data.body.name;
+const createUserService = async ({
+  name,
+  email,
+  password,
+  telephone,
+}: IUserRequest) => {
+  const userRepository = AppDataSource.getRepository(User);
+  const finduser = await userRepository.findOne({
+    where: {
+      name: name,
+    },
+  });
 
-    const userInfoRepository = AppDataSource.getRepository(UserInfo);
+  const userInfoRepository = AppDataSource.getRepository(UserInfo)
+  if (finduser) {
+    throw new AppError(409, "User already exists!");
+  }
+  const contactRepository = AppDataSource.getRepository(UserInfo);
+  const hashedPassword = bcryptjs.hashSync(password, 10);
+  const userRegister = new User();
 
-    const userExists = await userInfoRepository.findOneBy({
-      email: data.body.email,
-    });
+  userRegister.name = name;
+  userRegister.password = hashedPassword;
+  userRepository.create(userRegister);
 
-    if (userExists) {
-      throw new AppError(409, "User already exists!");
-    }
+  await userRepository.save(userRegister);
 
-    const createUser = userRepository.create(user);
+  const contact = new UserInfo();
 
-    const saveUser = await userRepository.save(createUser);
+  contact.email = email;
+  contact.telephone = telephone;
+  contact.user = userRegister;
+  contactRepository.create(contact);
 
-    const hashedPassword = bcryptjs.hashSync(data.body.password, 10);
+  const userInfoCreate =  userInfoRepository.create({
+    telephone:contact.telephone,
+    email:contact.email
+  })
 
-    const userInfoCreate = userInfoRepository.create({
-      telephone: data.body.telephone,
-      email: data.body.email,
-      password: hashedPassword,
-      user: saveUser,
-    });
-
-    await userInfoRepository.save(userInfoCreate);
+  await contactRepository.save(contact);
+  const { user, ...contact_info } = contact;
 
     const returnUser = {
-      id: createUser.id,
-      name: createUser.name,
-      email: userInfoCreate.email,
-      telephone: userInfoCreate.telephone,
-      created_at: createUser.created_at
-      
+      id: user.id,
+      name: user.name,
+      created_at: user.created_at,
+      updated_at: user.updated_at,
+      contacts: contact_info,
     };
-    return returnUser;
-  };
-
-  export default createUserService;
+  return returnUser;
+};
+export default createUserService;

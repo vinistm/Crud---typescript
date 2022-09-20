@@ -3,7 +3,7 @@ import { userRoutes } from './user.routes';
 import { sessionRoutes } from './session.routes';
 
 export const appRoutes = (app: Express) => {
-    app.use("/login", sessionRoutes());
     app.use("/user",userRoutes())
+    app.use("/login", sessionRoutes());
 
 }  

@@ -4,16 +4,15 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
-  PrimaryColumn,
-  UpdateDateColumn,
+  PrimaryGeneratedColumn
 } from "typeorm";
 import { User } from "./user.entity";
 import { v4 as uuid } from 'uuid'
 
-@Entity("user_info")
+@Entity("userInfo")
 export class UserInfo {
-  @PrimaryColumn("uuid")
-  readonly id: string;
+  @PrimaryGeneratedColumn("increment")
+  id: number;
 
   @ManyToOne(() => User, (user) => user.id, {
     onDelete: "CASCADE",
@@ -26,15 +25,4 @@ export class UserInfo {
   @Column({ length: 251 })
   email: string;
 
-  @Column({ length: 250 })
-  @Exclude()
-  password: string;
-
-  @UpdateDateColumn()
-  updated_at: Date;
-  constructor() {
-    if (!this.id) {
-        this.id = uuid()
-    }
-  }
 }

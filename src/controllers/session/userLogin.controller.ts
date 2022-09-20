@@ -3,9 +3,9 @@ import userLoginService from "../../services/userLogin.service";
 
 
 const userLoginController = async (req: Request, res: Response) => {
-    const { email, password } = req.body;
+    const { name, password } = req.body;
   
-    const userLogin = await userLoginService({ email, password });
+    const userLogin = await userLoginService({ name, password });
   
     return res.status(200).json({ token: userLogin });
   };

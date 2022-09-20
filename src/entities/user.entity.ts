@@ -4,7 +4,8 @@ import {
     JoinTable,
     OneToMany,
     PrimaryColumn,
-    CreateDateColumn
+    CreateDateColumn,
+    UpdateDateColumn
     
   } from "typeorm";
 import { UserInfo } from "./userInfo.entity";
@@ -19,14 +20,21 @@ export class User {
   @Column({ length: 250 })
   name: string;
 
+
+  @Column({ length: 250 })
+  password: string;
+
   @CreateDateColumn()
   created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
 
   @OneToMany(() => UserInfo, (userInfo) => userInfo.user, {
     eager: true,
   })
   @JoinTable()
-  userInfo: UserInfo;
+  userInfo: UserInfo[];
   constructor() {
     if (!this.id) {
         this.id = uuid()

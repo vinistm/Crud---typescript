@@ -6,7 +6,7 @@ import loginSchema from "../schemas/login/login.schema";
 const routes = Router();
 
 export const sessionRoutes = () => {
-    routes.post("", schemaValidation(loginSchema), userLoginController);
+    routes.post("", userLoginController)
   
-    return routes;
+    return routes
   };

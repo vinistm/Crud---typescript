@@ -6,29 +6,29 @@ import jwt from "jsonwebtoken";
 import { UserInfo } from "../entities/userInfo.entity";
 import { User } from "../entities/user.entity";
 
-const userLoginService = async ({ email, password }: IUserLogin) => {
-    const userInfoRepository = AppDataSource.getRepository(UserInfo);
+const userLoginService = async ({ name, password }: IUserLogin) => {
+    const userInfoRepository = AppDataSource.getRepository(User);
   
-    const userInfo = await userInfoRepository.findOneBy({ email: email });
+    const findUser = await userInfoRepository.findOne({ where: {name:name}});
   
-    if (!userInfo) {
-      throw new AppError(400, "Wrong email/password");
+    if (!findUser) {
+      throw new AppError(400, "Wrong user/password");
     }
   
-    const passwordMatch = bcryptjs.compareSync(password, userInfo.password);
+    const passwordMatch = bcryptjs.compareSync(password, findUser.password);
   
     if (!passwordMatch) {
-      throw new AppError(400, "Wrong email/password");
+      throw new AppError(400, "Wrong user/password");
     }
   
-    const userRepository = AppDataSource.getRepository(User);
+    const userRepository = AppDataSource.getRepository(UserInfo);
   
-    const user = await userRepository.findOneBy({ id: userInfo.id });
-  
+    const InfoUser = await userRepository.findOneBy({ user:findUser});
+    
     const token = jwt.sign(
       {
-        id: user!.id,
-        email: userInfo!.email,
+        id: findUser!.id,
+        email: InfoUser?.email,
       },
       process.env.SECRET_KEY as string,
       {
@@ -39,4 +39,6 @@ const userLoginService = async ({ email, password }: IUserLogin) => {
     return token;
   };
   export default userLoginService;
+  
+
   
