@@ -3,6 +3,7 @@ import { User } from "../../entities/user.entity";
 import { AppError } from "../../errors/appError";
 import { UserInfo } from "../../entities/userInfo.entity";
 import { IUserInfo } from "../../interfaces/user";
+import { userInfo } from "os";
 
 const createUserinfoService = async({name,telephone,email}: IUserInfo) =>{
     const UserRepository = AppDataSource.getRepository(User);
@@ -22,8 +23,13 @@ const createUserinfoService = async({name,telephone,email}: IUserInfo) =>{
     InfoRepository.create(contact);
 
     await InfoRepository.save(contact)
+
+
+  const { user, ...contact_info } = contact;
+
+  const { password, ...contacts } = user;
     
-    return User
+    return userInfo
 }
 export default createUserinfoService
 

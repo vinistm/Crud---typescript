@@ -32,7 +32,7 @@ export class User {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @OneToMany(() => UserInfo, (userInfo) => userInfo.user, {
+  @OneToMany((type) => UserInfo, (userInfo) => userInfo.user, {
     eager: true,
   })
   @JoinTable()

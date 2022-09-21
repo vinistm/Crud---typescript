@@ -13,7 +13,7 @@ export class UserInfo {
   @PrimaryGeneratedColumn("increment")
   id: number;
 
-  @ManyToOne(() => User, (user) => user.id, {
+  @ManyToOne((type) => User, (user) => user.id, {
     onDelete: "CASCADE",
   })
   user: User;

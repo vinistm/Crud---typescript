@@ -10,10 +10,10 @@ const verifyAuthToken = (req: Request, res: Response, next: NextFunction) => {
     throw new AppError(401, "Missing Authentication");
   }
 
-  const tokenSplit = token.split(" ")[1];
+  const tokenSplit = token.split(" ");
 
   jwt.verify(
-    tokenSplit,
+    tokenSplit[1],
     process.env.SECRET_KEY as string,
     (error: any, decoded: any) => {
       if (error) {
