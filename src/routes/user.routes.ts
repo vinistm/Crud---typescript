@@ -16,7 +16,7 @@ const routes = Router();
 export const userRoutes = () => {
     routes.post("",schemaValidation(registerSchema),createUserController)
     routes.post("/info",verifyAuthToken ,createInfoController)
-    routes.get("",verifyAuthToken,listUsersController);
+    routes.get("",listUsersController);
     routes.delete("/:id",verifyAuthToken,deleteUserController);
     routes.delete("/info/:id",verifyAuthToken,deleteUserInfoController)
     routes.patch("/:id",verifyAuthToken,updateUserController);
