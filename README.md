@@ -1,4 +1,4 @@
-# API dcadastro de clientes.
+# API cadastro de clientes.
 
 ## Métodos 🛠️
 
